@@ -1,6 +1,8 @@
 from pgmpy.models import BayesianNetwork
 from pgmpy.inference import VariableElimination
 
+#Arash Ansari
+
 alarm_model = BayesianNetwork(
     [
         ("Burglary", "Alarm"),
@@ -52,7 +54,14 @@ alarm_model.add_cpds(
 
 alarm_infer = VariableElimination(alarm_model)
 
-print(alarm_infer.query(variables=["JohnCalls"],evidence={"Earthquake":"yes"}))
-q = alarm_infer.query(variables=["JohnCalls", "Earthquake"],evidence={"Burglary":"yes","MaryCalls":"yes"}))
-print(q)
+
+print("P(Mary calls given that John calls):")
+print(alarm_infer.query(variables=["MaryCalls"],evidence={"JohnCalls":"yes"}))
+
+print("\n\nP(John and Mary calling given alarm):")
+print(alarm_infer.query(variables=["JohnCalls", "MaryCalls"], evidence={"Alarm":"yes"}))
+
+print("\n\nP(Alarm, given Mary called):")
+print(alarm_infer.query(variables=["Alarm"],evidence={"MaryCalls":"yes"}))
+
 
